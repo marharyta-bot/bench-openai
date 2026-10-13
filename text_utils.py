@@ -1,6 +1,7 @@
 """Shared text utility helpers."""
 
 import re
+from collections import Counter
 
 
 def slugify(text: str) -> str:
@@ -25,3 +26,12 @@ def parse_duration(text: str) -> int:
 
     hours, minutes, seconds = (int(value or "0") for value in match.groups())
     return hours * 3600 + minutes * 60 + seconds
+
+
+def word_count(text: str) -> dict[str, int]:
+    """Count lowercase ASCII words, preserving internal straight apostrophes.
+
+    Other characters separate words. Empty text returns an empty dictionary.
+    """
+    words = re.findall(r"[a-z]+(?:'[a-z]+)*", text.lower())
+    return dict(Counter(words))

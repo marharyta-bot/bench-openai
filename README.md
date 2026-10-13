@@ -41,6 +41,26 @@ alternate ordering, and zero-valued components or durations remain unspecified.
 The initial implementation rejects these forms rather than extending support
 without a confirmed requirement. Leading-zero handling also needs confirmation.
 
+`word_count(text)` returns a dictionary of lowercase words and their frequencies:
+
+```python
+from text_utils import word_count
+
+word_count("The the THE")   # {"the": 3}
+word_count("Hello, hello!") # {"hello": 2}
+word_count("don't")         # {"don't": 1}
+word_count("")              # {}
+```
+
+Punctuation separates words rather than joining them, and straight apostrophes
+inside words are preserved. Quotation marks around words are ignored. Empty
+text, whitespace, and punctuation alone produce an empty dictionary.
+
+Open review decision: word boundaries for digits, underscores, Unicode letters,
+and curly apostrophes remain unspecified. The initial matcher recognizes ASCII
+`a-z` after lowercasing, with internal straight apostrophes; other characters act
+as separators. Broader token rules and apostrophe normalization need confirmation.
+
 Run all tests using Python's standard-library test runner:
 
 ```sh
